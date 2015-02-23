@@ -1,6 +1,6 @@
 CROSS_COMPILE ?= arm-none-eabi-
 CC := $(CROSS_COMPILE)gcc
-CFLAGS = -fno-common -O0 \
+CFLAGS = -g -fno-common -O0 \
 	 -mcpu=cortex-m3 -mthumb \
 	 -T hello.ld -nostartfiles \
 
@@ -31,6 +31,15 @@ qemu: $(TARGET)
 	@echo "Press Ctrl-A and then X to exit QEMU"
 	@echo
 	$(QEMU) -M stm32-p103 -nographic -kernel hello.bin
+
+qemudbg:
+	$(QEMU) -M stm32-p103 \
+			-kernel hello.bin \
+			-monitor stdio \
+			-gdb tcp::3333 -S
+
+gdb:
+	$(CROSS_COMPILE)gdb -x gdbscript
 
 clean:
 	rm -f *.o *.bin *.elf *.list
