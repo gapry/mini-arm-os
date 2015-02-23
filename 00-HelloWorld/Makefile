@@ -14,6 +14,9 @@ $(TARGET): hello.c startup.c
 	$(CROSS_COMPILE)objcopy -Obinary hello.elf hello.bin
 	$(CROSS_COMPILE)objdump -S hello.elf > hello.list
 
+print:
+	$(CROSS_COMPILE)objdump -s hello.elf
+
 qemu: $(TARGET)
 	@$(QEMU) -M ? | grep stm32-p103 >/dev/null || exit
 	@echo "Press Ctrl-A and then X to exit QEMU"
