@@ -20,6 +20,9 @@ print:
 disassemble:
 	$(CROSS_COMPILE)objdump -d -l hello.elf
 
+print_symbol:
+	$(CROSS_COMPILE)nm hello.elf
+
 qemu: $(TARGET)
 	@$(QEMU) -M ? | grep stm32-p103 >/dev/null || exit
 	@echo "Press Ctrl-A and then X to exit QEMU"
