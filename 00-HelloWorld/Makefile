@@ -23,6 +23,9 @@ disassemble:
 print_symbol:
 	$(CROSS_COMPILE)nm hello.elf
 
+get_all_strings:
+	$(CROSS_COMPILE)strings hello.elf
+
 qemu: $(TARGET)
 	@$(QEMU) -M ? | grep stm32-p103 >/dev/null || exit
 	@echo "Press Ctrl-A and then X to exit QEMU"
