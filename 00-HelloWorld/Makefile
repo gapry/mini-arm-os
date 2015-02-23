@@ -4,6 +4,8 @@ CFLAGS = -fno-common -O0 \
 	 -mcpu=cortex-m3 -mthumb \
 	 -T hello.ld -nostartfiles \
 
+QEMU ?= /usr/local/bin/qemu-system-arm
+
 TARGET = hello.bin
 all: $(TARGET)
 
@@ -13,10 +15,10 @@ $(TARGET): hello.c startup.c
 	$(CROSS_COMPILE)objdump -S hello.elf > hello.list
 
 qemu: $(TARGET)
-	@qemu-system-arm -M ? | grep stm32-p103 >/dev/null || exit
+	@$(QEMU) -M ? | grep stm32-p103 >/dev/null || exit
 	@echo "Press Ctrl-A and then X to exit QEMU"
 	@echo
-	qemu-system-arm -M stm32-p103 -nographic -kernel hello.bin
+	$(QEMU) -M stm32-p103 -nographic -kernel hello.bin
 
 clean:
 	rm -f *.o *.bin *.elf *.list
