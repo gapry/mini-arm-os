@@ -17,6 +17,9 @@ $(TARGET): hello.c startup.c
 print:
 	$(CROSS_COMPILE)objdump -s hello.elf
 
+disassemble:
+	$(CROSS_COMPILE)objdump -d -l hello.elf
+
 qemu: $(TARGET)
 	@$(QEMU) -M ? | grep stm32-p103 >/dev/null || exit
 	@echo "Press Ctrl-A and then X to exit QEMU"
